@@ -12,25 +12,24 @@ class PointController extends Controller
         $title = "User Point";
 
         return view("/point/user_point", compact("title"));
+
     }
+
 
     public function convert_point(User $user)
-    {
-        $user = auth()->user();
-        if ($user->point >= 50) {
-            $user->coupon = $user->coupon + 1;
-            $user->point = $user->point - 50;
-            //$user->save();
-
-            $message = "Points converted successfully";
-
-            myFlasherBuilder(message: $message, success: true);
-            return back();
-        } else {
-            $message = "Action <strong>failed</strong>, point is not enough";
-
-            myFlasherBuilder(message: $message, failed: true);
-            return back();
-        }
-    }
+    { 
+      $user = auth()->user();
+      if ($user->point >= 50) {
+          $user->coupon = $user->coupon + 1;
+          $user->point = $user->point - 50;
+          $user->save(); // Guardar los cambios en la base de datos
+          $message = "Points converted successfully";
+          myFlasherBuilder(message: $message, success: true);
+          return back();
+      } else {
+          $message = "Action <strong>failed</strong>, point is not enough";
+          myFlasherBuilder(message: $message, failed: true);
+          return back();
+      }
+  }
 }
